@@ -1,4 +1,4 @@
-Build-Bill: Professional Invoicing & Billing System
+#  Build-Bill: Professional Invoicing & Billing System
 Build-Bill is a full-stack, role-based invoicing and billing application designed to help freelancers, accountants, and businesses manage clients, track payments, and generate professional PDF invoices seamlessly.
 
 * **Role-Based Access Control (RBAC):** Distinct dashboards and permissions for Admins, Accountants, and Standard Users.
