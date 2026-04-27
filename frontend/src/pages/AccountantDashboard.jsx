@@ -13,7 +13,7 @@ export default function AccountantDashboard() {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/reports/invoices", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reports/invoices`, {
           headers: { "Authorization": `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch invoices");
@@ -32,7 +32,7 @@ export default function AccountantDashboard() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch("http://localhost:5000/api/reports/revenue-summary", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reports/revenue-summary`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default function AccountantDashboard() {
   
   const handleExportCSV = () => {
  
-    window.location.href = `http://localhost:5000/api/reports/export/invoices-csv?token=${token}`;
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/reports/export/invoices-csv?token=${token}`;
   };
 
   return (

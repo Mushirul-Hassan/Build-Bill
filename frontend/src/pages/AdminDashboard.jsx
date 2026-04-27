@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const url = `http://localhost:5000/api/admin/users?page=${currentPage}&search=${searchTerm}`;
+      const url = `${import.meta.env.VITE_API_URL}/api/admin/users?page=${currentPage}&search=${searchTerm}`;
       const res = await fetch(url, {
         headers: { "Authorization": `Bearer ${token}` },
       });

@@ -18,7 +18,7 @@ export default function Clients() {
   const fetchClients = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/clients", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/clients`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Could not fetch clients");

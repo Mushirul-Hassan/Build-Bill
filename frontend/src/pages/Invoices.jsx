@@ -26,7 +26,7 @@ export default function Invoices() {
       }
       
       try {
-        const res = await fetch(`http://localhost:5000/api/invoices?${params.toString()}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/invoices?${params.toString()}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
           },

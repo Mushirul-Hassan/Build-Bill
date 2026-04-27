@@ -17,7 +17,7 @@ export default function ClientDetails() {
     const fetchClientDetails = async () => {
       try {
         // Fetch client details
-        const clientRes = await fetch(`http://localhost:5000/api/clients/${id}`, {
+        const clientRes = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!clientRes.ok) throw new Error('Failed to fetch client details.');
