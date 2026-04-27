@@ -25,7 +25,7 @@ export default function ClientDetails() {
         setClient(clientData);
 
         // Fetch invoices for this client
-        const invoicesRes = await fetch(`http://localhost:5000/api/invoices/client/${encodeURIComponent(clientData.name)}`, {
+        const invoicesRes = await fetch(`${import.meta.env.VITE_API_URL}/api/invoices/client/${encodeURIComponent(clientData.name)}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         if (!invoicesRes.ok) throw new Error('Failed to fetch client invoices.');

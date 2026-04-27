@@ -34,7 +34,7 @@ export default function InvoiceDetails() {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this invoice?")) {
       try {
-        const res = await fetch(`http://localhost:5000/api/invoices/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/invoices/${id}`, {
           method: 'DELETE',
           headers: { "Authorization": `Bearer ${token}` },
         });
@@ -49,7 +49,7 @@ export default function InvoiceDetails() {
   const handleSendEmail = async () => {
     setEmailStatus('Sending...');
     try {
-      const res = await fetch(`http://localhost:5000/api/email/${id}/send`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/email/${id}/send`, {
         method: 'POST',
         headers: { "Authorization": `Bearer ${token}` },
       });
@@ -62,7 +62,7 @@ export default function InvoiceDetails() {
   };
 
   const handleDownloadPDF = () => {
-    window.open(`http://localhost:5000/api/pdf/${id}/pdf?token=${token}`, '_blank');
+    window.open(`${import.meta.env.VITE_API_URL}/api/pdf/${id}/pdf?token=${token}`, '_blank');
   };
 
 
