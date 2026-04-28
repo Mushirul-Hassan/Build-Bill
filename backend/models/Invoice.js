@@ -4,8 +4,8 @@ const itemSchema = new mongoose.Schema({
   description: String,
   quantity: Number,
   rate: Number,
-  hours: { type: Number, default: 0 }, 
-  type: { type: String, enum: ['Service', 'Product'], default: 'Product' } 
+  hours: { type: Number, default: 0 },
+  type: { type: String, enum: ["Service", "Product"], default: "Product" },
 });
 
 const invoiceSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const invoiceSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["Paid", "Unpaid"],
-    default: "Unpaid"
+    default: "Unpaid",
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,8 +25,8 @@ const invoiceSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 export default mongoose.model("Invoice", invoiceSchema);
