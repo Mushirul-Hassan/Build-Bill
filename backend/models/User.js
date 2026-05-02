@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin', 'accountant'],
     default: 'user'
+  },
+  clientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Client",
+    default: null
   }
 });
 
