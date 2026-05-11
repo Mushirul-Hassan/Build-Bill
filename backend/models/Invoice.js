@@ -9,6 +9,13 @@ const itemSchema = new mongoose.Schema({
 });
 
 const invoiceSchema = new mongoose.Schema({
+
+  clientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Client",
+    required: true, 
+  },
+
   clientName: String,
   clientEmail: String,
   items: [itemSchema],

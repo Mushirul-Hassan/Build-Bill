@@ -19,9 +19,18 @@ export const createInvoice = async (req, res) => {
 export const getAllInvoices = async (req, res) => {
   try {
     const { status, search } = req.query;
-    let query = { user: req.user.userId };
+    let query = {};
 
-    
+    if (req.user.role === 'user') {
+      if (!req.user.clientId) {
+        return res.status(403).json({ error: "Your account is not linked to a billing profile." });
+      }
+
+      query.clientId = req.user.clientId;
+
+    }
+    else if (req.user.role === 'admin' || req.user.role === 'accountant') {
+    }
     if (status && ['Paid', 'Unpaid'].includes(status)) {
       query.status = status;
     }
