@@ -25,3 +25,6 @@ Build-Bill is a full-stack, role-based invoicing and billing application designe
 * PDFKit (PDF Generation)
 * Nodemailer (Email Delivery)
 * Bcrypt.js (Password Hashing)
+
+  <img width="1919" height="864" alt="image" src="https://github.com/user-attachments/assets/b84b896f-5ccf-4624-8d38-51671615f1bf" />
+
