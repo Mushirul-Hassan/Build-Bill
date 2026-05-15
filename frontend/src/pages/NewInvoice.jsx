@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import './NewInvoice.css'; 
+import "./NewInvoice.css";
 
 export default function NewInvoice() {
+  const [clientId, setClientId] = useState("");
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
-  const [items, setItems] = useState([{ description: "", quantity: 1, rate: 0, hours: 0, type: 'Product' }]);
+  const [items, setItems] = useState([
+    { description: "", quantity: 1, rate: 0, hours: 0, type: "Product" },
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { token } = useAuth();
@@ -14,18 +17,16 @@ export default function NewInvoice() {
 
   const [clients, setClients] = useState([]);
 
-
   useEffect(() => {
     const fetchClients = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/clients`, {
-          headers: { "Authorization": `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Could not fetch clients");
         const data = await res.json();
         setClients(data);
       } catch (err) {
-        
         console.error("Failed to fetch clients for dropdown:", err);
       }
     };
@@ -37,14 +38,17 @@ export default function NewInvoice() {
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
     newItems[index][field] = value;
-    if (field === 'type' && value === 'Product') {
+    if (field === "type" && value === "Product") {
       newItems[index].hours = 0;
     }
     setItems(newItems);
   };
 
   const addItem = () => {
-    setItems([...items, { description: "", quantity: 1, rate: 0, hours: 0, type: 'Product' }]);
+    setItems([
+      ...items,
+      { description: "", quantity: 1, rate: 0, hours: 0, type: "Product" },
+    ]);
   };
 
   const removeItem = (index) => {
@@ -54,16 +58,18 @@ export default function NewInvoice() {
 
   const calculateTotal = () => {
     return items.reduce((total, item) => {
-      const itemTotal = item.type === 'Service' 
-        ? item.quantity * item.rate * item.hours 
-        : item.quantity * item.rate;
+      const itemTotal =
+        item.type === "Service"
+          ? item.quantity * item.rate * item.hours
+          : item.quantity * item.rate;
       return total + itemTotal;
     }, 0);
   };
 
   const handleClientSelect = (clientId) => {
-    const selectedClient = clients.find(c => c._id === clientId);
+    const selectedClient = clients.find((c) => c._id === clientId);
     if (selectedClient) {
+      setClientId(selectedClient._id);
       setClientName(selectedClient.name);
       setClientEmail(selectedClient.email);
     } else {
@@ -71,13 +77,14 @@ export default function NewInvoice() {
       setClientEmail("");
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     const invoiceData = {
+      clientId,
       clientName,
       clientEmail,
       items,
@@ -89,7 +96,7 @@ export default function NewInvoice() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(invoiceData),
       });
@@ -111,19 +118,18 @@ export default function NewInvoice() {
       <div className="card">
         <h2>Create New Invoice</h2>
         <form onSubmit={handleSubmit}>
-
           <div className="form-group">
             <label>Select Existing Client:</label>
-            <select 
-              onChange={(e) => handleClientSelect(e.target.value)} 
+            <select
+              onChange={(e) => handleClientSelect(e.target.value)}
               className="client-select"
             >
-              <option value="">-- Or Enter Manually Below --</option>
-              {clients.map(client => (
+              {/* <option value="">-- Or Enter Manually Below --</option>
+              {clients.map((client) => (
                 <option key={client._id} value={client._id}>
                   {client.name} ({client.email})
                 </option>
-              ))}
+              ))} */}
             </select>
           </div>
 
@@ -151,7 +157,13 @@ export default function NewInvoice() {
           <h3>Items</h3>
           {items.map((item, index) => (
             <div key={index} className="item-row">
-              <select className="item-input" value={item.type} onChange={(e) => handleItemChange(index, "type", e.target.value)}>
+              <select
+                className="item-input"
+                value={item.type}
+                onChange={(e) =>
+                  handleItemChange(index, "type", e.target.value)
+                }
+              >
                 <option value="Product">Product</option>
                 <option value="Service">Service</option>
               </select>
@@ -160,7 +172,9 @@ export default function NewInvoice() {
                 className="item-input description"
                 placeholder="Description"
                 value={item.description}
-                onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                onChange={(e) =>
+                  handleItemChange(index, "description", e.target.value)
+                }
                 required
               />
               <input
@@ -169,17 +183,25 @@ export default function NewInvoice() {
                 placeholder="Quantity"
                 value={item.quantity}
                 min="1"
-                onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  handleItemChange(
+                    index,
+                    "quantity",
+                    parseInt(e.target.value, 10),
+                  )
+                }
                 required
               />
-              {item.type === 'Service' && (
+              {item.type === "Service" && (
                 <input
                   type="number"
                   className="item-input"
                   placeholder="Hours"
                   value={item.hours}
                   min="0"
-                  onChange={(e) => handleItemChange(index, "hours", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    handleItemChange(index, "hours", parseFloat(e.target.value))
+                  }
                 />
               )}
               <input
@@ -189,15 +211,31 @@ export default function NewInvoice() {
                 value={item.rate}
                 min="0"
                 step="0.01"
-                onChange={(e) => handleItemChange(index, "rate", parseFloat(e.target.value))}
+                onChange={(e) =>
+                  handleItemChange(index, "rate", parseFloat(e.target.value))
+                }
                 required
               />
-              <button type="button" onClick={() => removeItem(index)} className="btn-danger">Remove</button>
+              <button
+                type="button"
+                onClick={() => removeItem(index)}
+                className="btn-danger"
+              >
+                Remove
+              </button>
             </div>
           ))}
-          <button type="button" onClick={addItem} style={{ alignSelf: 'flex-start' }}>+ Add Item</button>
+          <button
+            type="button"
+            onClick={addItem}
+            style={{ alignSelf: "flex-start" }}
+          >
+            + Add Item
+          </button>
 
-          <h3 className="total-amount">Total: ₹{calculateTotal().toFixed(2)}</h3>
+          <h3 className="total-amount">
+            Total: ₹{calculateTotal().toFixed(2)}
+          </h3>
 
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? "Creating..." : "Create Invoice"}
