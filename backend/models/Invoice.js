@@ -18,6 +18,7 @@ const invoiceSchema = new mongoose.Schema({
 
   clientName: String,
   clientEmail: String,
+
   items: [itemSchema],
   totalAmount: Number,
   status: {
@@ -25,6 +26,8 @@ const invoiceSchema = new mongoose.Schema({
     enum: ["Paid", "Unpaid"],
     default: "Unpaid",
   },
+
+  
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
